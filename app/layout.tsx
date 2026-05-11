@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import DevDataModeToggle from "@/components/DevDataModeToggle";
+import Footer from "@/components/Footer";
 import { Geist, Geist_Mono } from "next/font/google";
+import Header from "@/components/Header";
+import { DataModeProvider } from "@/contexts/DataModeContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,7 +31,14 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <DataModeProvider>
+          <Header />
+          {children}
+          <Footer />
+          <DevDataModeToggle />
+        </DataModeProvider>
+      </body>
     </html>
   );
 }

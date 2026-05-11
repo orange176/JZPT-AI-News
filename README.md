@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 政鉴 · JZPT
 
-## Getting Started
+> 一个探索 **AI 深度解构** 的政经资讯平台原型。  
+> 聚焦「新闻阅读 + 宏观数据 + 三维逻辑分析」的一体化体验。
 
-First, run the development server:
+---
+
+## 🧭 项目简介
+
+**政鉴（JZPT）** 是一个面向政经内容的前端产品实验，目标是将传统资讯浏览升级为「可分析、可解释、可对比」的阅读体验。  
+平台通过结构化页面设计，把新闻流、宏观指标侧栏和 AI 分析能力整合在同一视图中，服务于更高效的政策信息理解与决策辅助。
+
+---
+
+## ✨ 核心特性
+
+- **响应式 12 栅格布局**：桌面端左 8 / 右 4 双栏结构，移动端自动折叠为单列，信息层级清晰。
+- **Mock / Real 数据隔离架构**：内置开发者调试开关（Data: Mock / Real），可快速切换演示数据与真实接口流程。
+- **SVG 宏观指标可视化**：关键数据速览采用迷你 Sparkline，严格遵循中国金融语义（涨红跌绿）。
+- **AI 分析流式交互**：新闻卡片支持「查看逻辑分析」，在卡片下方实时打字机式渲染分析内容。
+- **三维结构化解构**：分析结果按「宏观政策 / 民众体感 / 国际反应」三段高亮呈现，便于快速扫读。
+- **沉浸式阅读底盘**：顶部深色 Hero + 下方浅色正文区的深浅过渡，兼顾品牌氛围与长时阅读舒适度。
+
+---
+
+## 🧱 技术栈
+
+- **Next.js**（App Router）
+- **Tailwind CSS**
+- **TypeScript**
+- **lucide-react**
+
+---
+
+## 🚀 本地启动
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+启动后访问：`http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌌 产品愿景
 
-## Learn More
+当前 V1.0 已完成前端体验与交互底盘，下一阶段将进一步接入并强化大模型能力：
 
-To learn more about Next.js, take a look at the following resources:
+- 接入真实 LLM 推理链路，支持更稳定的流式输出与多轮分析。
+- 引入提示词模板与输出规范治理，持续提升三维解构的一致性与可解释性。
+- 打通「新闻事件 - 宏观指标 - 国际反馈」的联动分析路径，形成可追踪的政经认知图谱。
+- 从“阅读资讯”走向“理解逻辑”，最终沉淀为可复用的智能研究工作台。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📌 当前定位
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+这是一个高保真产品原型，同时也是后续 AI 业务层演进的前端基础设施。  
+欢迎继续迭代：模型接入、分析评测、策略看板、用户画像与个性化推荐。
