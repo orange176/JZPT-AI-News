@@ -5,9 +5,10 @@ import Link from "next/link";
 import { Hexagon, Menu, Moon, Search } from "lucide-react";
 
 const navItems = [
-  { label: "首页", href: "#" },
+  { label: "首页", href: "/" },
   { label: "深度", href: "#" },
   { label: "数据", href: "#" },
+  { label: "百科", href: "/wiki" },
   { label: "外媒", href: "#" },
 ];
 
@@ -26,7 +27,7 @@ export default function Header() {
     <header className="relative h-16 bg-[#000c17] text-white">
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
         <div className="flex items-center gap-8">
-          <Link href="#" className="group flex items-center gap-3" onClick={handleCloseMobile}>
+          <Link href="/" className="group flex items-center gap-3" onClick={handleCloseMobile}>
             <div className="rounded-md bg-[#ff6b00]/15 p-1.5 text-[#ff6b00]">
               <Hexagon className="h-5 w-5 fill-[#ff6b00] stroke-[#ff6b00]" />
             </div>

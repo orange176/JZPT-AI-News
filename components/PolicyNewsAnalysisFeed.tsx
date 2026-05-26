@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useDataMode } from "@/contexts/DataModeContext";
 import { mockNewsData } from "@/lib/mockData";
-import type { NewsItem } from "@/types/news";
+import type { NewsItem, StructuredAnalysis } from "@/types/news";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 const NEWS_URL = `${API_BASE_URL.replace(/\/$/, "")}/news`;
@@ -20,6 +20,27 @@ const REAL_CARD_ACCENTS = [
 
 function delay(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function formatPresetAnalysis(preset: StructuredAnalysis): string {
+  return [
+    `【宏观政策】\n${preset.macro}`,
+    `【民众体感】\n${preset.public}`,
+    `【国际反应】\n${preset.international}`,
+  ].join("\n\n");
+}
+
+async function streamPresetAnalysis(
+  itemId: string,
+  text: string,
+  onUpdate: (id: string, value: string) => void,
+) {
+  const step = 2;
+  for (let i = 0; i < text.length; i += step) {
+    onUpdate(itemId, text.slice(0, i + step));
+    await delay(30);
+  }
+  onUpdate(itemId, text);
 }
 
 function normalizeRealNewsPayload(data: unknown): NewsItem[] {
@@ -183,10 +204,35 @@ export default function PolicyNewsAnalysisFeed() {
     setIsAnalyzing((prev) => ({ ...prev, [item.id]: true }));
 
     try {
+      if (isMockMode) {
+        const preset = item.presetAnalysis;
+        if (!preset) {
+          setAnalysisResult((prev) => ({
+            ...prev,
+            [item.id]: "暂无 Mock 分析内容。",
+          }));
+          return;
+        }
+        await streamPresetAnalysis(item.id, formatPresetAnalysis(preset), (id, value) => {
+          setAnalysisResult((prev) => ({ ...prev, [id]: value }));
+        });
+        return;
+      }
+
+      const newsId = Number.parseInt(item.id, 10);
+      if (!Number.isFinite(newsId)) {
+        setAnalysisResult((prev) => ({
+          ...prev,
+          [item.id]: "无效的新闻 ID，请刷新列表后重试。",
+        }));
+        return;
+      }
+
       const res = await fetch(ANALYZE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          id: newsId,
           title: item.title,
           content: `${item.title}\n\n${item.summary}`,
         }),

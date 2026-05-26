@@ -15,3 +15,15 @@ class News(Base):
     publish_time = Column(String(100), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     analysis = Column(Text, nullable=True)
+
+
+class Wiki(Base):
+    __tablename__ = "wiki"
+
+    id = Column(Integer, primary_key=True, index=True)
+    word = Column(String(255), nullable=False, unique=True, index=True)
+    category = Column(String(100), nullable=False)
+    definition = Column(Text, nullable=False)
+    origin = Column(Text, nullable=False)
+    ai_analysis = Column(Text, nullable=True)
+    embedding = Column(Text, nullable=True)

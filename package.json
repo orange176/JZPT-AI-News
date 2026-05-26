@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:backend": "powershell -ExecutionPolicy Bypass -File ./scripts/start-backend.ps1",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
