@@ -2,9 +2,9 @@
 
 import os
 
-import models
-from database import SessionLocal, engine
-from models import Wiki
+from backend import models
+from backend.database import SessionLocal, engine
+from backend.models import Wiki
 from sqlalchemy import text
 
 WIKI_SEED_TRY_EMBEDDINGS = os.getenv("WIKI_SEED_TRY_EMBEDDINGS", "").lower() in (

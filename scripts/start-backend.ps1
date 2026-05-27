@@ -20,4 +20,4 @@ foreach ($line in $listeners) {
 }
 
 Write-Host "Starting backend on http://127.0.0.1:8000 (DB: backend/jzpt.db)"
-& $VenvPython backend/main.py
+& $VenvPython -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
