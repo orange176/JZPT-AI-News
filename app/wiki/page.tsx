@@ -9,6 +9,16 @@ const WIKI_LIST_URL = `${API_BASE_URL.replace(/\/$/, "")}/api/wiki`;
 const WIKI_SEARCH_URL = `${API_BASE_URL.replace(/\/$/, "")}/api/wiki/search`;
 const WIKI_ANALYZE_URL = `${API_BASE_URL.replace(/\/$/, "")}/api/wiki/analyze`;
 const WIKI_SEARCH_DEBOUNCE_MS = 400;
+const WIKI_FETCH_TIMEOUT_MS = 8000;
+const WIKI_BACKEND_HINT =
+  "请运行 npm run dev:all（推荐）或 npm run dev:backend 启动后端，也可切换右下角为 Mock 模式。";
+
+function wikiFetch(input: string, init?: RequestInit) {
+  return fetch(input, {
+    ...init,
+    signal: init?.signal ?? AbortSignal.timeout(WIKI_FETCH_TIMEOUT_MS),
+  });
+}
 
 type WikiAiAnalysis = {
   ideologicalRoots: string;
@@ -296,7 +306,7 @@ export default function WikiPage() {
       const requestId = ++searchRequestRef.current;
       setSearchLoading(true);
       try {
-        const res = await fetch(`${WIKI_SEARCH_URL}?q=${encodeURIComponent(trimmed)}`);
+        const res = await wikiFetch(`${WIKI_SEARCH_URL}?q=${encodeURIComponent(trimmed)}`);
         const raw = await res.text();
         let payload: unknown;
         try {
@@ -327,7 +337,7 @@ export default function WikiPage() {
         }
       } catch {
         if (requestId !== searchRequestRef.current) return;
-        setWikiError("无法连接语义搜索 API，请确认后端已启动（npm run dev:backend）。");
+        setWikiError(`无法连接语义搜索 API。${WIKI_BACKEND_HINT}`);
       } finally {
         if (requestId === searchRequestRef.current) {
           setSearchLoading(false);
@@ -362,7 +372,7 @@ export default function WikiPage() {
       }
 
       try {
-        const res = await fetch(WIKI_LIST_URL);
+        const res = await wikiFetch(WIKI_LIST_URL);
         const raw = await res.text();
         let payload: unknown;
         try {
@@ -403,9 +413,10 @@ export default function WikiPage() {
         }
       } catch {
         if (!cancelled) {
-          setWikiList([]);
-          setDisplayList([]);
-          setWikiError("无法连接百科 API，请确认后端已启动（npm run dev:backend）。");
+          setWikiList(WIKI_MOCK_ENTRIES);
+          setDisplayList(WIKI_MOCK_ENTRIES);
+          setActiveId(WIKI_MOCK_ENTRIES[0]?.id ?? "");
+          setWikiError(`Real 模式无法连接百科 API，已临时展示 Mock 数据。${WIKI_BACKEND_HINT}`);
           setWikiLoading(false);
         }
       }
