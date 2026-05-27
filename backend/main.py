@@ -15,8 +15,8 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
 import feedparser
-import models
-from database import SessionLocal, engine, get_db
+from backend import models
+from backend.database import SessionLocal, engine, get_db
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -87,8 +87,8 @@ else:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    from scheduler import scheduler, start_scheduler
-    from seed_wiki import seed_wiki
+    from backend.scheduler import scheduler, start_scheduler
+    from backend.seed_wiki import seed_wiki
 
     try:
         seed_wiki()

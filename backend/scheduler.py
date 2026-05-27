@@ -6,11 +6,11 @@ os.environ.setdefault("https_proxy", "")
 os.environ.setdefault("no_proxy", "*")
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from database import SessionLocal
+from backend.database import SessionLocal
+from backend.models import Wiki
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from models import Wiki
 
 BACKEND_ENV = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv()
